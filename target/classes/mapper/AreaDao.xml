@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jqh.dao.AreaDao">
+    <select id="queryArea" resultType="com.jqh.entity.Area">
+        SELECT area_id , area_name,
+        prority , create_time,last_edit_time
+        FROM tb_area
+        ORDER BY prority
+        DESC
+    </select>
+    
+    <select id="queryAreaById" resultType="com.jqh.entity.Area">
+        SELECT area_id , area_name,
+        prority , create_time,last_edit_time
+        FROM tb_area
+        WHERE
+        area_id=#{areaId}
+    </select>
+    
+    <insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId"
+            keyColumn="area_id"  parameterType="com.jqh.entity.Area">
+        INSERT INTO
+        tb_area(area_name,prority,create_time,last_edit_time)
+        VALUES
+        (#{areaName},#{prority},#{createTime},#{lastEditTime})
+    </insert>
+    
+    <update id="updateArea" parameterType="com.jqh.entity.Area">
+        update tb_area
+        <set>
+            <if test="areaName!=null">area_name=#{areaName},</if>
+            <if test="prority!=null">prority=#{prority},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime}</if>
+        </set>
+        where area_id=#{areaId}
+    </update>
+    
+    <delete id="deleteAreaById">
+        DELETE FROM tb_area
+        WHERE area_id=#{areaId}
+    </delete>
+</mapper>
